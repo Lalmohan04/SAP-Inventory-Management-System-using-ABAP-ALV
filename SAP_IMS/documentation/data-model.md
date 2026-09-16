@@ -1,36 +1,28 @@
 # Data Model
 
-## Main Inventory Tables
+The SAP Inventory Management System uses SAP standard inventory, material, and material-movement tables. The main inventory information is retrieved from `MARD`, `MARA`, and `MAKT`, while `MSEG`, `MKPF`, and `T156T` support the material movement drill-down.
 
-| Table | Purpose |
-|---|---|
-| MARD | Stock quantities at plant and storage-location level |
-| MARA | General material information |
-| MAKT | Material descriptions |
+---
 
-## Movement Tables
+## 1. Main Inventory Tables
 
-| Table | Purpose |
-|---|---|
-| MSEG | Material movement details |
-| MKPF | Material document header and posting date |
-| T156T | Movement type descriptions |
+| Table | Purpose | Data Used |
+|---|---|---|
+| `MARD` | Stores stock quantities at plant and storage-location level | MATNR, WERKS, LGORT, LABST |
+| `MARA` | Contains general material information | MATNR, MTART |
+| `MAKT` | Stores material descriptions | MATNR, MAKTX |
 
-## Main Output Fields
+### Relationship
 
-- MATNR — Material
-- MAKTX — Description
-- MTART — Material Type
-- WERKS — Plant
-- LGORT — Storage Location
-- LABST — Stock
-- LIGHT — Traffic-light indicator
+The main inventory dataset is formed by joining the material and inventory information:
 
-## Movement Drill-Down Fields
-
-- MATNR — Material
-- MBLNR — Document
-- MENGE — Quantity
-- BWART — Movement Type
-- BTEXT — Movement Description
-- BUDAT — Posting Date
+```text
+MARD
+  |
+  | MATNR
+  v
+MARA
+  |
+  | MATNR
+  v
+MAKT
